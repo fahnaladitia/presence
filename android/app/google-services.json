@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "841658932681",
+    "firebase_url": "https://crudfirebase-71987-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "crudfirebase-71987",
+    "storage_bucket": "crudfirebase-71987.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841658932681:android:5a63c35501a1bc59e89c18",
+        "android_client_info": {
+          "package_name": "com.pahnal.presence"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841658932681-d1r88s8rt819cqgbqb1dncrengn19gr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvjNhac86fYoFKkBkHExRd2SK66vnXZcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841658932681-d1r88s8rt819cqgbqb1dncrengn19gr3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "841658932681-c9jvcu6lev5q32qnqfaco7gdpr5b9sj6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebaseapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
