@@ -1,5 +1,3 @@
-import '../../data/models/pegawai_model.dart';
-
 class Pegawai {
   final String uid;
   final String createdAt;
@@ -14,12 +12,4 @@ class Pegawai {
     required this.email,
     required this.createdAt,
   });
-
-  PegawaiModel toModel() => PegawaiModel(
-        uid: uid,
-        name: name,
-        nip: nip,
-        email: email,
-        createdAt: createdAt,
-      );
 }
