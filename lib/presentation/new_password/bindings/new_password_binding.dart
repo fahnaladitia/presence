@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:presence/domain/usecases/new_password_usecase.dart';
 
+import '../../../domain/usecases/auth/new_password_usecase.dart';
 import '../controllers/new_password_controller.dart';
 
 class NewPasswordBinding extends Bindings {

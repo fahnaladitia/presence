@@ -1,12 +1,42 @@
 import 'package:get/get.dart';
-import 'package:presence/app/core/usecases/no_param_use_case.dart';
+
+import '../../../app/core/common/resource.dart';
+import '../../../app/routes/app_pages.dart';
+import '../../../domain/usecases/auth/logout_usecase.dart';
 
 class HomeController extends GetxController {
-  final NoParamUseCase<void> _loginUseCase;
+  final LogoutUseCase _logoutUseCase;
 
-  HomeController(this._loginUseCase);
+  HomeController(this._logoutUseCase);
+
+  RxBool isLoading = false.obs;
 
   Future<void> logout() async {
-    await _loginUseCase.execute();
+    await _logoutUseCase.execute().listen((event) {
+      switch (event.runtimeType) {
+        case LoadingResource<void>:
+          _onLoading(event as LoadingResource<void>);
+          break;
+        case ErrorResource<void>:
+          _onError(event as ErrorResource<void>);
+          break;
+        case SuccessResource<void>:
+          _onSuccess(event as SuccessResource<void>);
+          break;
+      }
+    });
+  }
+
+  void _onLoading(LoadingResource<void> event) {
+    isLoading.value = event.isLoading;
+  }
+
+  void _onError(ErrorResource<void> event) {
+    isLoading.value = event.isLoading;
+  }
+
+  void _onSuccess(SuccessResource<void> event) {
+    isLoading.value = event.isLoading;
+    Get.offAllNamed(Routes.LOGIN);
   }
 }

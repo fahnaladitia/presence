@@ -24,13 +24,20 @@ class App extends StatelessWidget {
         } else {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            title: "Application",
-            initialRoute:
-                snapshot.data != null ? AppPages.INITIAL : Routes.LOGIN,
+            title: "Presence",
+            initialRoute: buildInitialRoute(snapshot.data),
             getPages: AppPages.routes,
           );
         }
       },
     );
+  }
+
+  String buildInitialRoute(User? user) {
+    if (user != null) {
+      return AppPages.INITIAL;
+    } else {
+      return Routes.LOGIN;
+    }
   }
 }

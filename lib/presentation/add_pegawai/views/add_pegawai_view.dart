@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/add_pegawai_controller.dart';
@@ -42,23 +41,15 @@ class AddPegawaiView extends GetView<AddPegawaiController> {
                 border: OutlineInputBorder(),
               ),
             ),
-            // SizedBox(height: 20),
-            // TextField(
-            //   autocorrect: false,
-            //   controller: controller.passwordC,
-            //   obscureText: true,
-            //   decoration: InputDecoration(
-            //     labelText: 'Password',
-            //     border: OutlineInputBorder(),
-            //   ),
-            // ),
             SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                controller.addPegawai();
-              },
-              child: Text('Add Pegawai'),
-            ),
+            Obx(() => ElevatedButton(
+                  onPressed: () {
+                    controller.addPegawai();
+                  },
+                  child: controller.isLoading.isFalse
+                      ? Text('Add Pegawai')
+                      : Text('Loading...'),
+                )),
           ],
         ));
   }

@@ -1,4 +1,4 @@
-import 'package:presence/data/models/pegawai_model.dart';
+import '../../data/models/pegawai_model.dart';
 
 class Pegawai {
   final String uid;
@@ -22,19 +22,4 @@ class Pegawai {
         email: email,
         createdAt: createdAt,
       );
-
-  // Pegawai.fromMap(Map<String, dynamic> pegawaiMap)
-  //     : uid = pegawaiMap['uid'],
-  //       name = pegawaiMap['name'],
-  //       nip = pegawaiMap['nip'],
-  //       email = pegawaiMap['email'],
-  //       createdAt = pegawaiMap['createdAt'];
-
-  // Map<String, dynamic> toMap() => {
-  //       'uid': uid,
-  //       'name': name,
-  //       'nip': nip,
-  //       'email': email,
-  //       'createdAt': createdAt,
-  //     };
 }

@@ -29,6 +29,7 @@ class LoginView extends GetView<LoginController> {
                 autocorrect: false,
                 controller: controller.passwordC,
                 obscureText: controller.isObscure.value,
+                // keyboardType: TextInputType.none,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   suffixIcon: IconButton(
@@ -44,11 +45,17 @@ class LoginView extends GetView<LoginController> {
               ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            Obx(
+              () => ElevatedButton(
                 onPressed: () async {
-                  await controller.login();
+                  if (controller.isLoading.isFalse) {
+                    await controller.loginStream();
+                  }
                 },
-                child: Text('LOGIN')),
+                child:
+                    Text(controller.isLoading.isFalse ? 'LOGIN' : 'LOADING...'),
+              ),
+            ),
             TextButton(onPressed: () {}, child: Text('Lupa password ?'))
           ],
         ));

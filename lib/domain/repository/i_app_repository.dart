@@ -1,17 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../entities/pegawai.dart';
+import '../../app/core/common/resource.dart';
 
 abstract class IAppRepository {
+  // Future
   Future<User?> get currentUser;
 
-  Future<UserCredential> login(String email, String password);
+  // Stream
+  Stream<Resource<UserCredential>> login(String email, String password);
 
-  Future<UserCredential> createAccountPegawai(String email);
+  Stream<Resource<UserCredential>> validationAdminAccount(
+    String email,
+    String password,
+  );
 
-  Future<void> addPegawai(Pegawai pegawai, String uid);
+  Stream<Resource<void>> newPassword(String password);
 
-  Future<void> logout();
+  Stream<Resource<UserCredential>> createAccountPegawai(
+    String email,
+    String name,
+    String nip,
+  );
 
-  Future<void> newPassword(String password);
+  Stream<Resource<void>> logout();
 }
