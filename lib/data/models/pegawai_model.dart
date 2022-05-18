@@ -3,6 +3,7 @@ class PegawaiModel {
   final String createdAt;
   final String email;
   final num nip;
+  final String role;
   final String name;
 
   PegawaiModel({
@@ -10,6 +11,7 @@ class PegawaiModel {
     required this.name,
     required this.nip,
     required this.email,
+    required this.role,
     required this.createdAt,
   });
   Map<String, dynamic> toMap() {
@@ -18,6 +20,7 @@ class PegawaiModel {
       'name': name,
       'nip': nip,
       'email': email,
+      'role': role,
       'createdAt': createdAt,
     };
   }
@@ -27,5 +30,6 @@ class PegawaiModel {
         name = pegawaiMap['name'],
         nip = pegawaiMap['nip'],
         email = pegawaiMap['email'],
+        role = pegawaiMap['role'],
         createdAt = pegawaiMap['createdAt'];
 }

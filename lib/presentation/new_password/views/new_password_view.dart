@@ -35,11 +35,14 @@ class NewPasswordView extends GetView<NewPasswordController> {
               ),
             ),
             SizedBox(height: 30),
-            ElevatedButton(
-                onPressed: () async {
-                  await controller.newPassword();
+            Obx(() => ElevatedButton(
+                onPressed: () {
+                  if (controller.isLoading.isFalse) {
+                    controller.newPassword();
+                  }
                 },
-                child: Text('CONTINUE'))
+                child: Text(
+                    controller.isLoading.isFalse ? 'CONTINUE' : "LOADING...")))
           ],
         ));
   }

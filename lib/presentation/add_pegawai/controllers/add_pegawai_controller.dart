@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../app/routes/app_pages.dart';
 import '../../../app/core/common/resource.dart';
-import '../../../app/exceptions/validation_exceptions.dart';
 import '../../../domain/usecases/add_pegawai_usecase.dart';
 import '../../../domain/usecases/auth/validation_admin_usecase.dart';
 
@@ -64,12 +64,12 @@ class AddPegawaiController extends GetxController {
                 Get.back();
               },
               child: Text('CANCEL')),
-          ElevatedButton(
-              onPressed: () async {
-                try {
-                  await _validationAdminUseCase
-                      .execute(passwordAdminC.text)
-                      .listen((event) {
+          Obx(() => ElevatedButton(
+              onPressed: () {
+                if (isLoading.isFalse) {
+                  // try {
+                  _validationAdminUseCase.execute(passwordAdminC.text).listen(
+                      (event) {
                     switch (event.runtimeType) {
                       case LoadingResource<UserCredential>:
                         _onLoading(event as LoadingResource<UserCredential>);
@@ -83,12 +83,12 @@ class AddPegawaiController extends GetxController {
 
                         break;
                     }
+                  }, onError: (e) {
+                    Get.snackbar('Terjadi Kesalahan', e.message);
                   });
-                } on ValidationException catch (e) {
-                  Get.snackbar('Terjadi Kesalahan', e.message);
                 }
               },
-              child: Text('CONFIRM')),
+              child: Text(isLoading.isFalse ? 'CONFIRM' : 'LOADING...'))),
         ]);
   }
 
@@ -100,13 +100,14 @@ class AddPegawaiController extends GetxController {
     Get.snackbar('Terjadi Kesalahan', event.message ?? 'Unknown Error');
   }
 
-  void _onSuccessAddPegawai(SuccessResource<UserCredential> event) {
+  void _onSuccessAddPegawai(SuccessResource<UserCredential> event) async {
     isLoading.value = event.isLoading;
-    Get.back();
     Get.snackbar('Berhasil.', 'Berhasil menambahkan pegawai baru.');
+    Get.offAllNamed(Routes.HOME);
   }
 
-  void _onSuccessValidation(SuccessResource<UserCredential> event) async {
+  Future<void> _onSuccessValidation(
+      SuccessResource<UserCredential> event) async {
     isLoading.value = event.isLoading;
     Get.back();
     Get.snackbar('Berhasil', 'Validasi Berhasil');
@@ -127,6 +128,8 @@ class AddPegawaiController extends GetxController {
           _onSuccessAddPegawai(event as SuccessResource<UserCredential>);
           break;
       }
+    }, onError: (e) {
+      Get.snackbar('Terjadi Kesalahan', e.message);
     });
   }
 }

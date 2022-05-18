@@ -43,6 +43,7 @@ class AppRepository implements IAppRepository {
         name: name,
         nip: int.parse(nip),
         email: email,
+        role: 'pegawai',
         createdAt: formattingDate(value: DateTime.now().toIso8601String()),
       );
       await _firebaseNetwork.addPegawai(newPegawai.toModel());
@@ -84,6 +85,49 @@ class AppRepository implements IAppRepository {
     try {
       await Future.delayed(Duration(milliseconds: 1000));
       await _firebaseNetwork.logout();
+      yield SuccessResource(data: () {});
+    } on FirebaseAuthException catch (e) {
+      yield ErrorResource(message: e.code);
+    }
+  }
+
+  @override
+  Stream<Resource<void>> resetPassword(String email) async* {
+    yield LoadingResource();
+    try {
+      await _firebaseNetwork.resetPassword(email);
+      await Future.delayed(Duration(seconds: 1));
+      yield SuccessResource(data: () {});
+    } on FirebaseAuthException catch (e) {
+      yield ErrorResource(message: e.code);
+    }
+  }
+
+  @override
+  Stream<Pegawai> currentPegawai() async* {
+    yield* await _firebaseNetwork
+        .currentPegawai()
+        .asyncMap((event) => event.toDomain());
+  }
+
+  @override
+  Stream<Resource<void>> updateProfile(String name) async* {
+    yield LoadingResource();
+    try {
+      final currentUser = _firebaseNetwork.auth.currentUser!;
+      await _firebaseNetwork.updateProfile(currentUser.uid, name);
+      yield SuccessResource(data: () {});
+    } on FirebaseAuthException catch (e) {
+      yield ErrorResource(message: e.code);
+    }
+  }
+
+  @override
+  Stream<Resource<void>> updatePassword(
+      String currentPassword, String newPassword) async* {
+    yield LoadingResource();
+    try {
+      await _firebaseNetwork.updatePassword(currentPassword, newPassword);
       yield SuccessResource(data: () {});
     } on FirebaseAuthException catch (e) {
       yield ErrorResource(message: e.code);

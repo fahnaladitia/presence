@@ -23,6 +23,7 @@ class FirebaseNetwork {
 
     UserCredential userCredential = await secondAuth
         .createUserWithEmailAndPassword(email: email, password: password);
+    await userCredential.user!.sendEmailVerification();
 
     await app.delete();
 
@@ -34,6 +35,38 @@ class FirebaseNetwork {
         .collection('pegawai')
         .doc(pegawai.uid)
         .set(pegawai.toMap());
+  }
+
+  Future<void> resetPassword(String email) async {
+    return await auth.sendPasswordResetEmail(email: email);
+  }
+
+  Future<void> updatePassword(
+      String currentPassword, String newPassword) async {
+    String email = auth.currentUser!.email!;
+    final cred =
+        EmailAuthProvider.credential(email: email, password: currentPassword);
+    await auth.currentUser!
+        .reauthenticateWithCredential(cred)
+        .then((value) async {
+      await auth.currentUser!.updatePassword(newPassword);
+    });
+  }
+
+  Future<void> updateProfile(String uid, String name) async {
+    return await _firestore
+        .collection('pegawai')
+        .doc(uid)
+        .update({'name': name});
+  }
+
+  Stream<PegawaiModel> currentPegawai() async* {
+    String uid = auth.currentUser!.uid;
+    yield* await _firestore
+        .collection('pegawai')
+        .doc(uid)
+        .snapshots()
+        .asyncMap((event) => PegawaiModel.fromMap(event.data()!));
   }
 
   Future<UserCredential> validationAdminAccount(

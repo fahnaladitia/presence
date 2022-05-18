@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../entities/pegawai.dart';
 import '../../app/core/common/resource.dart';
 
 abstract class IAppRepository {
@@ -21,6 +22,15 @@ abstract class IAppRepository {
     String name,
     String nip,
   );
+
+  Stream<Resource<void>> updatePassword(
+      String currentPassword, String newPassword);
+
+  Stream<Resource<void>> updateProfile(String name);
+
+  Stream<Pegawai> currentPegawai();
+
+  Stream<Resource<void>> resetPassword(String email);
 
   Stream<Resource<void>> logout();
 }

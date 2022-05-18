@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../app/utils/resource_case.dart';
 import '../../../domain/usecases/auth/logout_usecase.dart';
 import '../../../app/exceptions/validation_exceptions.dart';
 import '../../../app/routes/app_pages.dart';
@@ -29,26 +30,23 @@ class LoginController extends GetxController {
       email: emailC.text,
       password: passwordC.text,
     );
-    try {
-      _loginStreamUseCase.execute(inputLogin).listen((event) async {
-        switch (event.runtimeType) {
-          case LoadingResource<UserCredential>:
-            isLoading.value = event.isLoading;
-            break;
-          case ErrorResource<UserCredential>:
-            isLoading.value = event.isLoading;
-            Get.snackbar('Terjadi Kesalahan', event.message ?? 'Unknown Error');
-            break;
-          case SuccessResource<UserCredential>:
-            _onSuccess(event as SuccessResource<UserCredential>);
-            break;
-        }
-      });
-    } on ValidationException catch (e) {
-      Get.snackbar('Tejadi Kesalahan', e.message);
-    } catch (e) {
-      Get.snackbar('Terjadi Kesalahan', '${e}');
-    }
+
+    _loginStreamUseCase.execute(inputLogin).listen((event) {
+      ResourceCase<UserCredential>(
+        onError: (event) {
+          isLoading.value = event.isLoading;
+          Get.snackbar('Terjadi Kesalahan', event.message ?? 'Unknown Error');
+        },
+        onLoading: (event) {
+          isLoading.value = event.isLoading;
+        },
+        onSuccess: (event) {
+          _onSuccess(event);
+        },
+      ).execute(event);
+    }, onError: (e) {
+      Get.snackbar('Terjadi Kesalahan', e.message);
+    });
   }
 
   void _onSuccess(SuccessResource<UserCredential> data) {
@@ -85,17 +83,17 @@ class LoginController extends GetxController {
     );
   }
 
-  void _sendEmailVerification({bool isSend = true}) async {
-    await _logoutUseCase.execute().listen((event) async {
-      switch (event.runtimeType) {
-        case LoadingResource<void>:
-          isLoading.value = event.isLoading;
-          break;
-        case ErrorResource<void>:
+  void _sendEmailVerification({bool isSend = true}) {
+    _logoutUseCase.execute().listen((event) async {
+      ResourceCase<void>(
+        onError: (event) {
           isLoading.value = event.isLoading;
           Get.snackbar('Terjadi Kesalahan', event.message ?? 'Unknown Error');
-          break;
-        case SuccessResource<void>:
+        },
+        onLoading: (event) {
+          isLoading.value = event.isLoading;
+        },
+        onSuccess: (event) async {
           isLoading.value = event.isLoading;
           if (isSend) {
             try {
@@ -110,8 +108,8 @@ class LoginController extends GetxController {
           } else {
             Get.back();
           }
-          break;
-      }
+        },
+      ).execute(event);
     });
   }
 }
