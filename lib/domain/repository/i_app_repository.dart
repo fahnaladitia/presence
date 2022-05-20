@@ -22,12 +22,13 @@ abstract class IAppRepository {
     String email,
     String name,
     String nip,
+    String job,
   );
 
   Stream<Resource<void>> updatePassword(
       String currentPassword, String newPassword);
 
-  Stream<Resource<void>> updateProfile(String name, XFile? file);
+  Stream<Resource<void>> updateProfile(String name, String job, XFile? file);
 
   Stream<Resource<void>> deleteImageProfile();
 

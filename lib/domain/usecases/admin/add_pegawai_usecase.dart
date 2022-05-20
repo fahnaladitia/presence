@@ -9,11 +9,13 @@ class InputAddPegawai {
   final String name;
   final String nip;
   final String email;
+  final String job;
 
   InputAddPegawai({
     required this.name,
     required this.nip,
     required this.email,
+    required this.job,
   });
 }
 
@@ -25,13 +27,11 @@ class AddPegawaiUseCase
   Stream<Resource<UserCredential>> execute(InputAddPegawai params) async* {
     final paramsIsNotEmpty = params.email.isNotEmpty &&
         params.nip.isNotEmpty &&
-        params.name.isNotEmpty;
+        params.name.isNotEmpty &&
+        params.job.isNotEmpty;
     if (paramsIsNotEmpty) {
       yield* _appRepository.createAccountPegawai(
-        params.email,
-        params.name,
-        params.nip,
-      );
+          params.email, params.name, params.nip, params.job);
     } else {
       throw ValidationException(message: 'NIP, Nama, dan email harus diisi.');
     }

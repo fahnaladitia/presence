@@ -18,6 +18,7 @@ class UpdateProfileController extends GetxController {
   TextEditingController nameC = TextEditingController();
   TextEditingController nipC = TextEditingController();
   TextEditingController emailC = TextEditingController();
+  TextEditingController jobC = TextEditingController();
 
   RxString imageUrl = ''.obs;
 
@@ -27,7 +28,11 @@ class UpdateProfileController extends GetxController {
   Rxn<XFile> image = Rxn<XFile>();
 
   Future<void> updateProfile() async {
-    final input = InputUpdateProfile(name: nameC.text, file: image.value);
+    final input = InputUpdateProfile(
+      name: nameC.text,
+      job: jobC.text,
+      file: image.value,
+    );
     await _updateProfileUseCase.execute(input).listen((event) {
       ResourceCase<void>(
         onError: (event) {

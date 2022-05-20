@@ -7,9 +7,10 @@ import '../../repository/i_app_repository.dart';
 
 class InputUpdateProfile {
   final String name;
+  final String job;
   final XFile? file;
 
-  InputUpdateProfile({required this.name, this.file});
+  InputUpdateProfile({required this.name, required this.job, this.file});
 }
 
 class UpdateProfileUseCase
@@ -19,8 +20,9 @@ class UpdateProfileUseCase
   UpdateProfileUseCase(this._appRepository);
   @override
   Stream<Resource<void>> execute(InputUpdateProfile input) async* {
-    if (input.name.isNotEmpty) {
-      yield* await _appRepository.updateProfile(input.name, input.file);
+    if (input.name.isNotEmpty && input.job.isNotEmpty) {
+      yield* await _appRepository.updateProfile(
+          input.name, input.job, input.file);
     } else {
       throw ValidationException(message: 'Name harus di isi');
     }

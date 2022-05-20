@@ -34,6 +34,7 @@ class AppRepository implements IAppRepository {
     String email,
     String name,
     String nip,
+    String job,
   ) async* {
     yield LoadingResource();
     try {
@@ -45,6 +46,7 @@ class AppRepository implements IAppRepository {
         nip: int.parse(nip),
         email: email,
         role: 'pegawai',
+        job: job,
         createdAt: formattingDate(value: DateTime.now().toIso8601String()),
       );
       await _firebaseNetwork.addPegawai(newPegawai.toModel());
@@ -112,10 +114,11 @@ class AppRepository implements IAppRepository {
   }
 
   @override
-  Stream<Resource<void>> updateProfile(String name, XFile? file) async* {
+  Stream<Resource<void>> updateProfile(
+      String name, String job, XFile? file) async* {
     yield LoadingResource();
     try {
-      await _firebaseNetwork.updateProfile(name, file);
+      await _firebaseNetwork.updateProfile(name, job, file);
       yield SuccessResource(data: () {});
     } on FirebaseAuthException catch (e) {
       yield ErrorResource(message: e.code);

@@ -2,6 +2,10 @@ import 'package:get/get.dart';
 
 import '../../presentation/add_pegawai/bindings/add_pegawai_binding.dart';
 import '../../presentation/add_pegawai/views/add_pegawai_view.dart';
+import '../../presentation/all_presensi/bindings/all_presensi_binding.dart';
+import '../../presentation/all_presensi/views/all_presensi_view.dart';
+import '../../presentation/detail_presensi/bindings/detail_presensi_binding.dart';
+import '../../presentation/detail_presensi/views/detail_presensi_view.dart';
 import '../../presentation/forgot_password/bindings/forgot_password_binding.dart';
 import '../../presentation/forgot_password/views/forgot_password_view.dart';
 import '../../presentation/home/bindings/home_binding.dart';
@@ -26,7 +30,7 @@ class AppPages {
 
   static final routes = [
     GetPage(
-      transition: Transition.cupertino,
+      transition: Transition.fadeIn,
       name: _Paths.HOME,
       page: () => HomeView(),
       binding: HomeBinding(),
@@ -56,7 +60,7 @@ class AppPages {
       binding: ForgotPasswordBinding(),
     ),
     GetPage(
-      transition: Transition.cupertino,
+      transition: Transition.fadeIn,
       name: _Paths.PROFILE,
       page: () => ProfileView(),
       binding: ProfileBinding(),
@@ -72,6 +76,18 @@ class AppPages {
       name: _Paths.UPDATE_PASSWORD,
       page: () => UpdatePasswordView(),
       binding: UpdatePasswordBinding(),
+    ),
+    GetPage(
+      transition: Transition.cupertino,
+      name: _Paths.DETAIL_PRESENSI,
+      page: () => DetailPresensiView(),
+      binding: DetailPresensiBinding(),
+    ),
+    GetPage(
+      transition: Transition.cupertino,
+      name: _Paths.ALL_PRESENSI,
+      page: () => AllPresensiView(),
+      binding: AllPresensiBinding(),
     ),
   ];
 }

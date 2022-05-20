@@ -12,6 +12,7 @@ class AddPegawaiController extends GetxController {
   TextEditingController nipC = TextEditingController();
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordAdminC = TextEditingController();
+  TextEditingController jobC = TextEditingController();
 
   final AddPegawaiUseCase _addPegawaiStreamUseCase;
   final ValidationAdminUseCase _validationAdminUseCase;
@@ -23,13 +24,16 @@ class AddPegawaiController extends GetxController {
   RxBool isLoading = false.obs;
 
   Future<void> addPegawai() async {
-    final inputIsNotEmpty =
-        emailC.text.isNotEmpty && nipC.text.isNotEmpty && nameC.text.isNotEmpty;
+    final inputIsNotEmpty = emailC.text.isNotEmpty &&
+        nipC.text.isNotEmpty &&
+        nameC.text.isNotEmpty &&
+        jobC.text.isNotEmpty;
 
     if (inputIsNotEmpty) {
       _buildDialog();
     } else {
-      Get.snackbar("Terjadi Kesalahan", 'NIP, Nama, dan email harus diisi.');
+      Get.snackbar(
+          "Terjadi Kesalahan", 'NIP, Nama, job, dan email harus diisi.');
     }
   }
 
@@ -115,6 +119,7 @@ class AddPegawaiController extends GetxController {
       name: nameC.text,
       nip: nipC.text,
       email: emailC.text,
+      job: jobC.text,
     );
     await _addPegawaiStreamUseCase.execute(input).listen((event) {
       switch (event.runtimeType) {

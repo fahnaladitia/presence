@@ -75,7 +75,8 @@ class FirebaseNetwork {
     await _firestore.collection('pegawai').doc(uid).update({'profile': ''});
   }
 
-  Future<void> updateProfile(String name, [XFile? file = null]) async {
+  Future<void> updateProfile(String name, String job,
+      [XFile? file = null]) async {
     final uid = auth.currentUser!.uid;
     if (file != null) {
       String uploadLocation =
@@ -88,12 +89,12 @@ class FirebaseNetwork {
       return await _firestore
           .collection('pegawai')
           .doc(uid)
-          .update({'name': name, 'profile': urlImage});
+          .update({'name': name, 'job': job, 'profile': urlImage});
     } else {
       return await _firestore
           .collection('pegawai')
           .doc(uid)
-          .update({'name': name});
+          .update({'name': name, 'job': job});
     }
   }
 

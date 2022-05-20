@@ -13,6 +13,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
     controller.nipC.text = pegawai.nip.toString();
     controller.nameC.text = pegawai.name;
     controller.emailC.text = pegawai.email;
+    controller.jobC.text = pegawai.job;
     controller.imageUrl.value = pegawai.profile ?? '';
     final defaultImageUrl = 'https://ui-avatars.com/api/?name=${pegawai.name}';
     return Scaffold(
@@ -49,6 +50,15 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
               controller: controller.nameC,
               decoration: InputDecoration(
                 labelText: 'Name',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              autocorrect: false,
+              controller: controller.jobC,
+              decoration: InputDecoration(
+                labelText: 'Job',
                 border: OutlineInputBorder(),
               ),
             ),
