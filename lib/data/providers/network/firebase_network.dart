@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:firebase_storage/firebase_storage.dart' as s;
+import 'package:image_picker/image_picker.dart';
 import '../../models/pegawai_model.dart';
 
 class FirebaseNetwork {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  s.FirebaseStorage _storage = s.FirebaseStorage.instance;
 
   Future<UserCredential> login(String email, String password) async {
     return await auth.signInWithEmailAndPassword(
@@ -53,11 +57,44 @@ class FirebaseNetwork {
     });
   }
 
-  Future<void> updateProfile(String uid, String name) async {
-    return await _firestore
+  Future<void> _proccessDeleteProfile(String uid) async {
+    final currentData = await _firestore
         .collection('pegawai')
         .doc(uid)
-        .update({'name': name});
+        .snapshots()
+        .asyncMap((event) => event.data()!['profile']);
+    final String currentImageUrl = await currentData.first;
+    if (currentImageUrl != '') {
+      await _storage.refFromURL(currentImageUrl).delete();
+    }
+  }
+
+  Future<void> deleteImageProfile() async {
+    final uid = auth.currentUser!.uid;
+    await _proccessDeleteProfile(uid);
+    await _firestore.collection('pegawai').doc(uid).update({'profile': ''});
+  }
+
+  Future<void> updateProfile(String name, [XFile? file = null]) async {
+    final uid = auth.currentUser!.uid;
+    if (file != null) {
+      String uploadLocation =
+          'upload/${uid}-${DateTime.now().millisecondsSinceEpoch}.${file.name.split('.').last}';
+      print(uploadLocation);
+      await _proccessDeleteProfile(uid);
+
+      await _storage.ref(uploadLocation).putFile(File(file.path));
+      String urlImage = await _storage.ref(uploadLocation).getDownloadURL();
+      return await _firestore
+          .collection('pegawai')
+          .doc(uid)
+          .update({'name': name, 'profile': urlImage});
+    } else {
+      return await _firestore
+          .collection('pegawai')
+          .doc(uid)
+          .update({'name': name});
+    }
   }
 
   Stream<PegawaiModel> currentPegawai() async* {

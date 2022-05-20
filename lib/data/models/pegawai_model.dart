@@ -5,15 +5,16 @@ class PegawaiModel {
   final num nip;
   final String role;
   final String name;
+  final String? profile;
 
-  PegawaiModel({
-    required this.uid,
-    required this.name,
-    required this.nip,
-    required this.email,
-    required this.role,
-    required this.createdAt,
-  });
+  PegawaiModel(
+      {required this.uid,
+      required this.name,
+      required this.nip,
+      required this.email,
+      required this.role,
+      required this.createdAt,
+      this.profile});
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
@@ -22,6 +23,7 @@ class PegawaiModel {
       'email': email,
       'role': role,
       'createdAt': createdAt,
+      'profile': profile,
     };
   }
 
@@ -31,5 +33,6 @@ class PegawaiModel {
         nip = pegawaiMap['nip'],
         email = pegawaiMap['email'],
         role = pegawaiMap['role'],
-        createdAt = pegawaiMap['createdAt'];
+        createdAt = pegawaiMap['createdAt'],
+        profile = pegawaiMap['profile'];
 }

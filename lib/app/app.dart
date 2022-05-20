@@ -5,8 +5,7 @@ import 'package:get/get.dart';
 import 'routes/app_pages.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
-
+  App({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -25,7 +24,9 @@ class App extends StatelessWidget {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: "Presence",
+            // onGenerateRoute: Modular.,
             initialRoute: buildInitialRoute(snapshot.data),
+            
             getPages: AppPages.routes,
           );
         }

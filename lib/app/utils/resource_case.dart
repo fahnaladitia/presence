@@ -19,16 +19,5 @@ class ResourceCase<Type> {
     } else if (event is ErrorResource<Type>) {
       onError(event);
     }
-    // switch (event.runtimeType) {
-    //   case LoadingResource<Type>:
-    //     onLoading(event as LoadingResource<Type>);
-    //     break;
-    //   case ErrorResource<Type>:
-    //     onError(event as ErrorResource<Type>);
-    //     break;
-    //   case SuccessResource<Type>:
-    //     onSuccess(event as SuccessResource<Type>);
-    //     break;
-    // }
   }
 }

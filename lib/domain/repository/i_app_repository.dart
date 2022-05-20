@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../entities/pegawai.dart';
 import '../../app/core/common/resource.dart';
@@ -26,7 +27,9 @@ abstract class IAppRepository {
   Stream<Resource<void>> updatePassword(
       String currentPassword, String newPassword);
 
-  Stream<Resource<void>> updateProfile(String name);
+  Stream<Resource<void>> updateProfile(String name, XFile? file);
+
+  Stream<Resource<void>> deleteImageProfile();
 
   Stream<Pegawai> currentPegawai();
 

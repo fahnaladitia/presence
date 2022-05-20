@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-import '../../../domain/usecases/add_pegawai_usecase.dart';
-import '../../../domain/usecases/auth/validation_admin_usecase.dart';
+import '../../../domain/usecases/admin/add_pegawai_usecase.dart';
+import '../../../domain/usecases/admin/validation_admin_usecase.dart';
 import '../controllers/add_pegawai_controller.dart';
 
 class AddPegawaiBinding extends Bindings {

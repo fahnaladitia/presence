@@ -9,6 +9,7 @@ extension PegawaiMapper on Pegawai {
         email: email,
         role: role,
         createdAt: createdAt,
+        profile: profile,
       );
 }
 
@@ -20,5 +21,6 @@ extension PegawaiModelMapper on PegawaiModel {
         email: email,
         role: role,
         createdAt: createdAt,
+        profile: profile,
       );
 }

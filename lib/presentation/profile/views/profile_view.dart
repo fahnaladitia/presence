@@ -20,6 +20,9 @@ class ProfileView extends GetView<ProfileController> {
               return Center(child: CircularProgressIndicator());
             } else {
               if (snapshot.hasData) {
+                String defaultImage =
+                    'https://ui-avatars.com/api/?name=${snapshot.data!.name}';
+                print(snapshot.data);
                 return ListView(
                   padding: EdgeInsets.all(20),
                   children: [
@@ -31,7 +34,11 @@ class ProfileView extends GetView<ProfileController> {
                             width: 100,
                             height: 100,
                             child: Image.network(
-                              'https://ui-avatars.com/api/?name=${snapshot.data!.name}',
+                              snapshot.data!.profile != null
+                                  ? snapshot.data!.profile != ''
+                                      ? snapshot.data!.profile!
+                                      : defaultImage
+                                  : defaultImage,
                               fit: BoxFit.cover,
                             ),
                           ),

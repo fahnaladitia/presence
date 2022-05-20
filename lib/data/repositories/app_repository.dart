@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../app/utils/mapper.dart';
 import '../../app/core/common/resource.dart';
@@ -111,14 +112,15 @@ class AppRepository implements IAppRepository {
   }
 
   @override
-  Stream<Resource<void>> updateProfile(String name) async* {
+  Stream<Resource<void>> updateProfile(String name, XFile? file) async* {
     yield LoadingResource();
     try {
-      final currentUser = _firebaseNetwork.auth.currentUser!;
-      await _firebaseNetwork.updateProfile(currentUser.uid, name);
+      await _firebaseNetwork.updateProfile(name, file);
       yield SuccessResource(data: () {});
     } on FirebaseAuthException catch (e) {
       yield ErrorResource(message: e.code);
+    } catch (e) {
+      yield ErrorResource(message: e.toString());
     }
   }
 
@@ -128,6 +130,17 @@ class AppRepository implements IAppRepository {
     yield LoadingResource();
     try {
       await _firebaseNetwork.updatePassword(currentPassword, newPassword);
+      yield SuccessResource(data: () {});
+    } on FirebaseAuthException catch (e) {
+      yield ErrorResource(message: e.code);
+    }
+  }
+
+  @override
+  Stream<Resource<void>> deleteImageProfile() async* {
+    yield LoadingResource();
+    try {
+      await _firebaseNetwork.deleteImageProfile();
       yield SuccessResource(data: () {});
     } on FirebaseAuthException catch (e) {
       yield ErrorResource(message: e.code);

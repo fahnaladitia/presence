@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 
 import '../../../app/routes/app_pages.dart';
 import '../../../app/core/common/resource.dart';
-import '../../../domain/usecases/add_pegawai_usecase.dart';
-import '../../../domain/usecases/auth/validation_admin_usecase.dart';
+import '../../../domain/usecases/admin/add_pegawai_usecase.dart';
+import '../../../domain/usecases/admin/validation_admin_usecase.dart';
 
 class AddPegawaiController extends GetxController {
   TextEditingController nameC = TextEditingController();

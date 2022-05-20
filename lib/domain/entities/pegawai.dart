@@ -5,6 +5,7 @@ class Pegawai {
   final num nip;
   final String role;
   final String name;
+  final String? profile;
 
   Pegawai({
     required this.uid,
@@ -13,10 +14,11 @@ class Pegawai {
     required this.email,
     required this.role,
     required this.createdAt,
+    this.profile,
   });
 
   @override
   String toString() {
-    return "Pegawai(uid: $uid, name: $name, nip: $nip, email: $email, role: $role, createdAt: $createdAt)";
+    return "Pegawai(uid: $uid, name: $name, nip: $nip, email: $email, role: $role, profile: $profile, createdAt: $createdAt)";
   }
 }

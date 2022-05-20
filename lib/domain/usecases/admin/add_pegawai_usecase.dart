@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../app/core/common/resource.dart';
-import '../../app/core/usecases/param_use_case.dart';
-import '../../app/exceptions/validation_exceptions.dart';
-import '../repository/i_app_repository.dart';
+import '../../../app/core/common/resource.dart';
+import '../../../app/core/usecases/param_use_case.dart';
+import '../../../app/exceptions/validation_exceptions.dart';
+import '../../repository/i_app_repository.dart';
 
 class InputAddPegawai {
   final String name;
